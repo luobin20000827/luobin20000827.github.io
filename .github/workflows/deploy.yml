@@ -27,8 +27,7 @@ jobs:
           node-version: 22
       - name: 用 Astro 官方 Action 构建
         uses: withastro/action@v3
-      - name: 上传构建产物
-        uses: actions/upload-pages-artifact@v3
+        # 该 Action 内部已自动上传 Pages 产物，无需再单独调用 upload-pages-artifact
 
   deploy:
     needs: build
