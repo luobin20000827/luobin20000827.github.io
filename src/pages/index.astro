@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import { getCollection } from 'astro:content';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf()
+);
+---
+<BaseLayout title="首页">
+  <section class="hero">
+    <h1>你好，我是<span style="color:var(--accent)">luobin20000827</span> 👋</h1>
+    <p>
+      这里记录我在后端、数据库和工程实践上的思考。主要是 Java 与分布式相关的笔记，
+      偶尔也写写 Python 和踩坑总结。
+    </p>
+  </section>
+
+  <ul class="post-list">
+    {
+      posts.map((post) => (
+        <li>
+          <a href={`/blog/${post.id}`}>{post.data.title}</a>
+          <span class="muted small">
+            <FormattedDate date={post.data.pubDate} />
+          </span>
+        </li>
+      ))
+    }
+  </ul>
+
+  <p class="muted small" style="margin-top:1.5rem">
+    共 {posts.length} 篇 · <a href="/rss.xml">RSS 订阅</a>
+  </p>
+</BaseLayout>

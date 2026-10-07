@@ -1,0 +1,33 @@
+---
+// 站点信息：改名字和导航都在这里
+const SITE = {
+  name: 'luobin20000827',
+  nav: [
+    { href: '/', label: '首页' },
+    { href: '/blog', label: '文章' },
+    { href: '/about', label: '关于' },
+  ],
+};
+const current = Astro.url.pathname;
+---
+<header class="site-header">
+  <nav class="nav">
+    <a href="/" class="brand">{SITE.name}</a>
+    <span style="flex:1"></span>
+    {
+      SITE.nav.map((item) => (
+        <a
+          href={item.href}
+          aria-current={
+            current === item.href ||
+            (item.href !== '/' && current.startsWith(item.href))
+              ? 'page'
+              : undefined
+          }
+        >
+          {item.label}
+        </a>
+      ))
+    }
+  </nav>
+</header>
